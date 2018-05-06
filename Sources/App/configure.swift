@@ -12,6 +12,10 @@ public func configure(
     let router = EngineRouter.default()
     try routes(router)
     services.register(router, as: Router.self)
-
+    
     // Configure the rest of your application here
+    if let key = Environment.get("URBAN_AIRSHIP_KEY"), let secret = Environment.get("URBAN_AIRSHIP_MASTERSECRET") {
+        let urbanVapor = UrbanVaporProvider(key: key, secret: secret)
+        try services.register(urbanVapor)
+    }
 }
