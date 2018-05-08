@@ -10,8 +10,9 @@ import Vapor
 
 public struct UrbanVaporProvider: Provider {
     
-    let airshipKey: String
-    let airshipMasterSecret: String
+    // MARK: Properties
+    public let airshipKey: String
+    public let airshipMasterSecret: String
     
     /// Create a new UrbanVapor provider
     public init(key: String, secret: String) {
@@ -21,7 +22,8 @@ public struct UrbanVaporProvider: Provider {
     
     /// See Provider.register
     public func register(_ services: inout Services) throws {
-        services.register(UrbanVaporService(key: airshipKey, secret: airshipMasterSecret), as: UrbanVaporService.self)
+        let urbanVaporService = UrbanVaporService(key: airshipKey, secret: airshipMasterSecret)
+        services.register(urbanVaporService, as: UrbanVaporService.self)
     }
     
     /// See Provider.boot

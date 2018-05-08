@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Push: Encodable {
+public struct Push: Encodable {
     
-    let audience: Audience
-    let notification: Notification
-    let deviceTypes: DeviceTypes
+    public let audience: Audience
+    public let notification: Notification
+    public let deviceTypes: DeviceTypes
     
     //MARK: Codable
     private enum CodingKeys: String, CodingKey {

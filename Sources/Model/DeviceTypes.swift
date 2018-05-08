@@ -7,50 +7,7 @@
 
 import Foundation
 
-struct DeviceTypes: Collection, Equatable {
-    
-    static let all: DeviceTypes = DeviceTypes(deviceTypes: [.android, .amazon, .ios, .web, .wns])
-
-    // MARK: Properties
-    private var storage: Set<DeviceType> = []
-    
-    // MARK: Initializer
-    init(deviceTypes: [DeviceType]) {
-        storage = Set(deviceTypes)
-    }
-    
-    // MARK: Interface
-    mutating func insert(_ deviceType: DeviceType) {
-        storage.insert(deviceType)
-    }
-    
-    // MARK: Collection
-    var startIndex: Set<DeviceType>.Index { return storage.startIndex }
-    var endIndex: Set<DeviceType>.Index { return storage.endIndex }
-    
-    func index(after i: DeviceTypes.Index) -> DeviceTypes.Index {
-        return storage.index(after: i)
-    }
-    
-    subscript(position: Set<DeviceType>.Index) -> DeviceType {
-        return storage[position]
-    }
-}
-
-extension DeviceTypes: Encodable {
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        
-        guard self != DeviceTypes.all else {
-            return try container.encode("all")
-        }
-        
-        try container.encode(Array(storage.map { $0.stringValue }))
-    }
-}
-
-enum DeviceType: Int, Codable {
+public enum DeviceType: Int, Codable {
     case android = 1
     case amazon = 2
     case ios = 4
@@ -67,3 +24,51 @@ enum DeviceType: Int, Codable {
         }
     }
 }
+
+public struct DeviceTypes: Collection, Equatable {
+    
+    // MARK: Properties
+    private var storage: Set<DeviceType> = []
+    
+    // MARK: Initializer
+    public init(deviceTypes: [DeviceType]) {
+        storage = Set(deviceTypes)
+    }
+    
+    // MARK: Interface
+    public mutating func insert(_ deviceType: DeviceType) {
+        storage.insert(deviceType)
+    }
+    
+    // MARK: Collection
+    public var startIndex: Set<DeviceType>.Index { return storage.startIndex }
+    public var endIndex: Set<DeviceType>.Index { return storage.endIndex }
+    
+    public func index(after i: DeviceTypes.Index) -> DeviceTypes.Index {
+        return storage.index(after: i)
+    }
+    
+    public subscript(position: Set<DeviceType>.Index) -> DeviceType {
+        return storage[position]
+    }
+}
+
+// MARK: Predefined
+public extension DeviceTypes {
+    static let all: DeviceTypes = DeviceTypes(deviceTypes: [.android, .amazon, .ios, .web, .wns])
+}
+
+// MARK: Encodable
+extension DeviceTypes: Encodable {
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        
+        guard self != DeviceTypes.all else {
+            return try container.encode("all")
+        }
+        
+        try container.encode(Array(storage.map { $0.stringValue }))
+    }
+}
+
