@@ -21,6 +21,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		B4EA2E3320A12B0700947492 /* Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EA2E3220A12B0700947492 /* Push.swift */; };
+		B4EA2E3520A12B1A00947492 /* Audience.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EA2E3420A12B1A00947492 /* Audience.swift */; };
+		B4EA2E3720A12BB100947492 /* DeviceTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EA2E3620A12BB100947492 /* DeviceTypes.swift */; };
+		B4EA2E3920A12BB700947492 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EA2E3820A12BB700947492 /* Notification.swift */; };
+		B4EA2E3C20A1342B00947492 /* DeviceTypesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EA2E3A20A1316A00947492 /* DeviceTypesTests.swift */; };
 		OBJ_1003 /* CommandOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_402 /* CommandOption.swift */; };
 		OBJ_1004 /* CommandRunnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_403 /* CommandRunnable.swift */; };
 		OBJ_1005 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_405 /* Command.swift */; };
@@ -3916,6 +3921,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B4EA2E3220A12B0700947492 /* Push.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Push.swift; sourceTree = "<group>"; };
+		B4EA2E3420A12B1A00947492 /* Audience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audience.swift; sourceTree = "<group>"; };
+		B4EA2E3620A12BB100947492 /* DeviceTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTypes.swift; sourceTree = "<group>"; };
+		B4EA2E3820A12BB700947492 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		B4EA2E3A20A1316A00947492 /* DeviceTypesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTypesTests.swift; sourceTree = "<group>"; };
 		"Console::Command::Product" /* Command.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Command.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Console::Console::Product" /* Console.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Console.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Console::Logging::Product" /* Logging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -5152,6 +5162,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B4EA2E3120A12AFE00947492 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B4EA2E3220A12B0700947492 /* Push.swift */,
+				B4EA2E3820A12BB700947492 /* Notification.swift */,
+				B4EA2E3620A12BB100947492 /* DeviceTypes.swift */,
+				B4EA2E3420A12B1A00947492 /* Audience.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		OBJ_104 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -5388,6 +5409,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_19 /* AppTests.swift */,
+				B4EA2E3A20A1316A00947492 /* DeviceTypesTests.swift */,
 			);
 			name = AppTests;
 			path = Tests/AppTests;
@@ -6398,7 +6420,7 @@
 			path = CodableReflection;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -6409,7 +6431,6 @@
 				OBJ_22 /* Dependencies */,
 				OBJ_644 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_52 /* Logging */ = {
@@ -6862,6 +6883,7 @@
 		OBJ_8 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				B4EA2E3120A12AFE00947492 /* Model */,
 				OBJ_9 /* Provider */,
 				OBJ_12 /* boot.swift */,
 				OBJ_13 /* configure.swift */,
@@ -8209,7 +8231,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_644 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -9014,10 +9036,14 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_689 /* UrbanVaporProvider.swift in Sources */,
+				B4EA2E3720A12BB100947492 /* DeviceTypes.swift in Sources */,
+				B4EA2E3920A12BB700947492 /* Notification.swift in Sources */,
+				B4EA2E3320A12B0700947492 /* Push.swift in Sources */,
 				OBJ_690 /* UrbanVaporService.swift in Sources */,
 				OBJ_691 /* boot.swift in Sources */,
 				OBJ_692 /* configure.swift in Sources */,
 				OBJ_693 /* routes.swift in Sources */,
+				B4EA2E3520A12B1A00947492 /* Audience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9026,6 +9052,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_808 /* AppTests.swift in Sources */,
+				B4EA2E3C20A1342B00947492 /* DeviceTypesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
