@@ -32,14 +32,14 @@ public extension UrbanVaporService {
         private static let baseURL = URL(string: "https://go.urbanairship.com/api/")!
         
         case push
-        case validatePush
+        case validate
         case associateNamedUser
         case disassociateNamedUser
         
         var url: URL {
             switch self {
             case .push: return Endpoint.baseURL.appendingPathComponent("push")
-            case .validatePush: return Endpoint.push.url.appendingPathComponent("validate")
+            case .validate: return Endpoint.push.url.appendingPathComponent("validate")
             case .associateNamedUser: return Endpoint.baseURL.appendingPathComponents(["named_users", "associate"])
             case .disassociateNamedUser: return Endpoint.baseURL.appendingPathComponents(["named_users", "disassociate"])
             }
@@ -49,6 +49,18 @@ public extension UrbanVaporService {
     // MARK: Interface
     func send(push: Push, on client: Client) throws -> Future<Response> {
         return try send(body: push, to: .push, on: client)
+    }
+    
+    func send(pushes: [Push], on client: Client) throws -> Future<Response> {
+        return try send(body: pushes, to: .push, on: client)
+    }
+    
+    func validate(push: Push, on client: Client) throws -> Future<Response> {
+        return try send(body: push, to: .validate, on: client)
+    }
+    
+    func validate(pushes: [Push], on client: Client) throws -> Future<Response> {
+        return try send(body: pushes, to: .push, on: client)
     }
     
     func associate(namedUser: NamedUserAssocation, on client: Client) throws -> Future<Response> {
