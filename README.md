@@ -1,6 +1,8 @@
 UrbanVapor
 ============
 [![CI Status](http://img.shields.io/travis/wmcginty/UrbanVapor.svg?style=flat)](https://travis-ci.org/wmcginty/UrbanVapor)
+![Swift](http://img.shields.io/badge/swift-4.1-brightgreen.svg)
+![Vapor](http://img.shields.io/badge/vapor-3.0-brightgreen.svg)
 
 ### Purpose
 UrbanVapor is a Vapor 3 `Provider` intended to make it easy to work with Urban Airships Push Notifications API. It is designed to simplify or eliminate 'stringly-typed' parameters, making the API safer to use. 
