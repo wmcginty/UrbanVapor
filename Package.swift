@@ -11,6 +11,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "UrbanVapor", dependencies: ["Vapor"], path: "Sources/"),
-        .testTarget(name: "UrbanVaporTests", dependencies: ["Vapor"], path: "Tests/")
+        .testTarget(name: "UrbanVaporTests", dependencies: ["Vapor"])
     ]
 )
