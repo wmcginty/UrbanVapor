@@ -10,8 +10,8 @@ import Vapor
 
 extension HTTPHeaders {
     
-    static func authorizationHeaders(withKey key: String, secret: String) -> HTTPHeaders {
-        var headers = HTTPHeaders()
+    func withAuthorization(forKey key: String, secret: String) -> HTTPHeaders {
+        var headers = self
         let userPass = Data("\(key):\(secret)".utf8).base64EncodedString()
         headers.add(name: .authorization, value: "Basic \(userPass)")
         

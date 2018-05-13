@@ -21,7 +21,7 @@ public struct UrbanVaporService: Service {
     }
     
     private var authorizationHeaders: HTTPHeaders {
-        return HTTPHeaders.authorizationHeaders(withKey: airshipKey, secret: airshipMasterSecret)
+        return HTTPHeaders().withAuthorization(forKey: airshipKey, secret: airshipMasterSecret)
     }
 }
 
@@ -33,42 +33,40 @@ public extension UrbanVaporService {
         
         case push
         case validate
-        case associateNamedUser
-        case disassociateNamedUser
+        case namedUser(action: NamedUserAction)
+        
+        enum NamedUserAction {
+            case associate
+            case disassociate
+            
+            var pathValue: String {
+                switch self {
+                case .associate: return "associate"
+                case .disassociate: return "disassociate"
+                }
+            }
+        }
         
         var url: URL {
             switch self {
             case .push: return Endpoint.baseURL.appendingPathComponent("push")
             case .validate: return Endpoint.push.url.appendingPathComponent("validate")
-            case .associateNamedUser: return Endpoint.baseURL.appendingPathComponents(["named_users", "associate"])
-            case .disassociateNamedUser: return Endpoint.baseURL.appendingPathComponents(["named_users", "disassociate"])
+            case .namedUser(let association): return Endpoint.baseURL.appendingPathComponents(["named_users", association.pathValue])
             }
         }
     }
     
     // MARK: Interface
-    func send(push: Push, on client: Client) throws -> Future<Response> {
-        return try send(body: push, to: .push, on: client)
+    func send(_ push: Push..., on client: Client, validateOnly: Bool = false) throws -> Future<Response> {
+        return try send(body: push, to: validateOnly ? .validate : .push, on: client)
     }
     
-    func send(pushes: [Push], on client: Client) throws -> Future<Response> {
-        return try send(body: pushes, to: .push, on: client)
+    func associate(_ namedUser: NamedUserAssocation, on client: Client) throws -> Future<Response> {
+        return try send(body: namedUser, to: .namedUser(action: .associate), on: client)
     }
     
-    func validate(push: Push, on client: Client) throws -> Future<Response> {
-        return try send(body: push, to: .validate, on: client)
-    }
-    
-    func validate(pushes: [Push], on client: Client) throws -> Future<Response> {
-        return try send(body: pushes, to: .push, on: client)
-    }
-    
-    func associate(namedUser: NamedUserAssocation, on client: Client) throws -> Future<Response> {
-        return try send(body: namedUser, to: .associateNamedUser, on: client)
-    }
-    
-    func disassociate(namedUser: NamedUserAssocation, on client: Client) throws -> Future<Response> {
-        return try send(body: namedUser, to: .disassociateNamedUser, on: client)
+    func disassociate(_ namedUser: NamedUserAssocation, on client: Client) throws -> Future<Response> {
+        return try send(body: namedUser, to: .namedUser(action: .disassociate), on: client)
     }
 }
 
@@ -78,10 +76,8 @@ private extension UrbanVaporService {
     private func send<T: Encodable>(body: T, to endpoint: Endpoint, on client: Client) throws -> Future<Response> {
         return client.post(endpoint.url, headers: authorizationHeaders) { req in
             let encoder = JSONEncoder()
-            if #available(OSX 10.12, *) {
-                encoder.dateEncodingStrategy = .iso8601
-            }
-            
+            encoder.dateEncodingStrategy = .customISO8601
+
             req.http.body = HTTPBody(data: try encoder.encode(body))
         }
     }

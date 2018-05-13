@@ -7,7 +7,7 @@ let package = Package(
         .library(name: "UrbanVapor", targets: ["UrbanVapor"])
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "3.0.2"),
     ],
     targets: [
         .target(name: "UrbanVapor", dependencies: ["Vapor"], path: "Sources/"),

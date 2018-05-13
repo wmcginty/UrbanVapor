@@ -31,7 +31,7 @@ public struct DeviceTypes: Collection, Equatable {
     private var storage: Set<DeviceType> = []
     
     // MARK: Initializer
-    public init(deviceTypes: [DeviceType]) {
+    public init(deviceTypes: DeviceType...) {
         storage = Set(deviceTypes)
     }
     
@@ -55,7 +55,7 @@ public struct DeviceTypes: Collection, Equatable {
 
 // MARK: Predefined
 public extension DeviceTypes {
-    static let all: DeviceTypes = DeviceTypes(deviceTypes: [.android, .amazon, .ios, .web, .wns])
+    static let all: DeviceTypes = DeviceTypes(deviceTypes: .android, .amazon, .ios, .web, .wns)
 }
 
 // MARK: Encodable
