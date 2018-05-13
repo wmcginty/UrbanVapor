@@ -11,11 +11,19 @@ import XCTest
 
 class UrbanVaporTests: XCTestCase {
     
-    func testNothing() throws {
-        XCTAssert(true)
+    func testAppendingPathComponents() throws {
+        let url = URL(string: "http://www.google.com")
+        let new = url?.appendingPathComponents(["a","b","c"])
+        XCTAssertEqual(new?.absoluteString, "http://www.google.com/a/b/c")
+    }
+    
+    func testAddingAuthorizationHeaders() throws {
+        let headers = HTTPHeaders()
+        let added = headers.withAuthorization(forKey: "key", secret: "secret")
+        XCTAssertTrue(added.contains(name: .authorization))
     }
     
     static var allTests: [(String, (UrbanVaporTests) -> () throws -> Void)] = [
-        ("testNothing", testNothing),
+        ("testAppendingPathComponents", testAppendingPathComponents),
     ]
 }

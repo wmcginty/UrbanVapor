@@ -52,7 +52,7 @@ class DeviceTypeTests: XCTestCase {
     // MARK: Helper
     private func assertJSONEncoded<T: Encodable>(from element: T, matches data: Data, file: StaticString = #file, line: UInt = #line) {
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .customISO8601
+        encoder.dateEncodingStrategy = .airship
         let encoded = try! encoder.encode(element)
         
         XCTAssertEqual(encoded, data, file: file, line: line)

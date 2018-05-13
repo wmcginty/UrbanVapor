@@ -9,7 +9,7 @@ import Foundation
 
 extension JSONEncoder.DateEncodingStrategy {
     
-    private class CustomISO8601DateFormatter: DateFormatter {
+    private class AirshipDateFormatter: DateFormatter {
         override init() {
             super.init()
             self.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -21,5 +21,5 @@ extension JSONEncoder.DateEncodingStrategy {
         }
     }
     
-    static let customISO8601 = JSONEncoder.DateEncodingStrategy.formatted(CustomISO8601DateFormatter())
+    static let airship = JSONEncoder.DateEncodingStrategy.formatted(AirshipDateFormatter())
 }
