@@ -22,3 +22,6 @@ script:
     - swift build
     - swift build -c release
     - swift test
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
