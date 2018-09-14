@@ -10,11 +10,18 @@ import Foundation
 public struct Notification: Encodable {
     
     // MARK: Properties
-    let alert: String
-    let title: String?
-    let extra: [String: String]
+    public let alert: String
+    public let title: String?
+    public let extra: [String: String]
     
-    let ios: APNS?
+    public let ios: APNS?
+    
+    public init(alert: String, title: String?, extra: [String: String] = [:], ios: APNS? = nil) {
+        self.alert = alert
+        self.title = title
+        self.extra = extra
+        self.ios = ios
+    }
 }
 
 // MARK: Subtypes
