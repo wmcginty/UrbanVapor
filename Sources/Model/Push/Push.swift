@@ -13,6 +13,12 @@ public struct Push: Encodable {
     public let notification: Notification
     public let deviceTypes: DeviceTypes
     
+    public init(audience: Audience, notification: Notification, deviceTypes: DeviceTypes) {
+        self.audience = audience
+        self.notification = notification
+        self.deviceTypes = deviceTypes
+    }
+    
     //MARK: Codable
     private enum CodingKeys: String, CodingKey {
         case audience
