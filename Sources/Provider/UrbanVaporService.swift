@@ -57,28 +57,32 @@ public extension UrbanVaporService {
     }
     
     // MARK: Interface
-    func send(_ push: Push, on client: Client, validateOnly: Bool = false) throws -> Future<Response> {
-        return try send(body: push, to: validateOnly ? .validate : .push, on: client)
+    func send(_ push: Push, on request: Request, validateOnly: Bool = false) throws -> Future<Response> {
+        return try send(body: push, to: validateOnly ? .validate : .push, on: request)
     }
     
-    func associate(_ namedUser: NamedUserAssocation, on client: Client) throws -> Future<Response> {
-        return try send(body: namedUser, to: .namedUser(action: .associate), on: client)
+    func associate(_ namedUser: NamedUserAssocation, on request: Request) throws -> Future<Response> {
+        return try send(body: namedUser, to: .namedUser(action: .associate), on: request)
     }
     
-    func disassociate(_ namedUser: NamedUserAssocation, on client: Client) throws -> Future<Response> {
-        return try send(body: namedUser, to: .namedUser(action: .disassociate), on: client)
+    func disassociate(_ namedUser: NamedUserAssocation, on request: Request) throws -> Future<Response> {
+        return try send(body: namedUser, to: .namedUser(action: .disassociate), on: request)
     }
 }
 
 // MARK: Helper
 private extension UrbanVaporService {
     
-    private func send<T: Encodable>(body: T, to endpoint: Endpoint, on client: Client) throws -> Future<Response> {
+    private func send<T: Encodable>(body: T, to endpoint: Endpoint, on request: Request) throws -> Future<Response> {
+        let client = try request.client()
         return client.post(endpoint.url, headers: authorizationHeaders) { req in
             let encoder = JSONEncoder()
             encoder.dateEncodingStrategy = .airship
-
+            
             req.http.body = HTTPBody(data: try encoder.encode(body))
+            
+            let logger = try request.make(Logger.self)
+            logger.info(String(describing: req.http.body))
         }
     }
 }
