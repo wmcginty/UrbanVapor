@@ -57,7 +57,7 @@ public extension UrbanVaporService {
     }
     
     // MARK: Interface
-    func send(_ push: Push..., on client: Client, validateOnly: Bool = false) throws -> Future<Response> {
+    func send(_ push: Push, on client: Client, validateOnly: Bool = false) throws -> Future<Response> {
         return try send(body: push, to: validateOnly ? .validate : .push, on: client)
     }
     
