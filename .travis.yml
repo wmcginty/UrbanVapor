@@ -19,6 +19,7 @@ before_install:
         fi
 
 script:
+    - swift --version
     - swift build
     - swift build -c release
     - swift test
