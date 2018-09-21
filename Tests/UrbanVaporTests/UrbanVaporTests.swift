@@ -25,5 +25,6 @@ class UrbanVaporTests: XCTestCase {
     
     static var allTests: [(String, (UrbanVaporTests) -> () throws -> Void)] = [
         ("testAppendingPathComponents", testAppendingPathComponents),
+        ("testAddingAuthorizationHeaders", testAddingAuthorizationHeaders)
     ]
 }

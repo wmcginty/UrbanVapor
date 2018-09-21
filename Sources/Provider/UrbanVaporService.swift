@@ -76,13 +76,8 @@ private extension UrbanVaporService {
     private func send<T: Encodable>(body: T, to endpoint: Endpoint, on request: Request) throws -> Future<Response> {
         let client = try request.client()
         return client.post(endpoint.url, headers: authorizationHeaders) { req in
-            let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .airship
-            
+            let encoder = JSONEncoder.custom(dates: .airship)            
             req.http.body = HTTPBody(data: try encoder.encode(body))
-            
-            let logger = try request.make(Logger.self)
-            logger.info(String(describing: req.http.body))
         }
     }
 }

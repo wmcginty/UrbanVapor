@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum DeviceType: Int, Codable {
+public enum DeviceType: Int, Codable, CaseIterable {
     case android = 1
     case amazon = 2
     case ios = 4
@@ -35,6 +35,10 @@ public struct DeviceTypes: Collection, Equatable {
         storage = Set(deviceTypes)
     }
     
+    public init(deviceTypes: [DeviceType]) {
+        storage = Set(deviceTypes)
+    }
+    
     // MARK: Interface
     public mutating func insert(_ deviceType: DeviceType) {
         storage.insert(deviceType)
@@ -55,7 +59,7 @@ public struct DeviceTypes: Collection, Equatable {
 
 // MARK: Predefined
 public extension DeviceTypes {
-    static let all: DeviceTypes = DeviceTypes(deviceTypes: .android, .amazon, .ios, .web, .wns)
+    static let all: DeviceTypes = DeviceTypes(deviceTypes: DeviceType.allCases)
 }
 
 // MARK: Encodable
