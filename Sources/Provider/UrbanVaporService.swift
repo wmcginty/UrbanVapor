@@ -57,22 +57,35 @@ public extension UrbanVaporService {
     }
     
     // MARK: Interface
-    func send(_ push: Push, on request: Request, validateOnly: Bool = false) throws -> Future<Response> {
-        return try send(body: push, to: validateOnly ? .validate : .push, on: request)
+    func send(_ push: Push, on request: Request, validateOnly: Bool = false) throws -> Future<HTTPStatus> {
+        return try send(body: push, to: validateOnly ? .validate : .push, on: request).mapStatus(on: request)
     }
     
-    func associate(_ namedUser: NamedUserAssocation, on request: Request) throws -> Future<Response> {
-        return try send(body: namedUser, to: .namedUser(action: .associate), on: request)
+    func associate(_ namedUser: NamedUserAssocation, on request: Request) throws -> Future<HTTPStatus> {
+        return try send(body: namedUser, to: .namedUser(action: .associate), on: request).mapStatus(on: request)
     }
     
-    func disassociate(_ namedUser: NamedUserAssocation, on request: Request) throws -> Future<Response> {
-        return try send(body: namedUser, to: .namedUser(action: .disassociate), on: request)
+    func disassociate(_ namedUser: NamedUserAssocation, on request: Request) throws -> Future<HTTPStatus> {
+        return try send(body: namedUser, to: .namedUser(action: .disassociate), on: request).mapStatus(on: request)
+    }
+}
+// MARK: Helper
+extension Future where T: Response {
+    
+    func mapStatus(on worker: Request) throws -> Future<HTTPStatus> {
+        return flatMap { response in
+            guard response.http.status.isSuccess else {
+                return try response.content.decode(UrbanError.self).map { urbanError in
+                    throw UrbanAbortError(status: response.http.status, urbanError: urbanError)
+                }
+            }
+            
+            return Future.map(on: worker) { response.http.status }
+        }
     }
 }
 
-// MARK: Helper
-private extension UrbanVaporService {
-    
+extension UrbanVaporService {
     private func send<T: Encodable>(body: T, to endpoint: Endpoint, on request: Request) throws -> Future<Response> {
         let client = try request.client()
         return client.post(endpoint.url, headers: authorizationHeaders) { req in

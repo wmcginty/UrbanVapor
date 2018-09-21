@@ -23,8 +23,18 @@ class UrbanVaporTests: XCTestCase {
         XCTAssertTrue(added.contains(name: .authorization))
     }
     
+    func testHTTPStatusIsSuccess() throws {
+        XCTAssertTrue(HTTPStatus.ok.isSuccess)
+        XCTAssertTrue(HTTPStatus.accepted.isSuccess)
+        XCTAssertFalse(HTTPStatus.badGateway.isSuccess)
+        XCTAssertTrue(HTTPStatus.created.isSuccess)
+        XCTAssertTrue(HTTPStatus.noContent.isSuccess)
+        XCTAssertFalse(HTTPStatus.internalServerError.isSuccess)
+    }
+    
     static var allTests: [(String, (UrbanVaporTests) -> () throws -> Void)] = [
         ("testAppendingPathComponents", testAppendingPathComponents),
-        ("testAddingAuthorizationHeaders", testAddingAuthorizationHeaders)
+        ("testAddingAuthorizationHeaders", testAddingAuthorizationHeaders),
+        ("testHTTPStatusIsSuccess", testHTTPStatusIsSuccess)
     ]
 }
