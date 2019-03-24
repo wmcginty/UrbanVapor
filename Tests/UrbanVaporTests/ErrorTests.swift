@@ -85,10 +85,27 @@ class ErrorTests: XCTestCase {
         XCTAssertEqual(abortError2.status, .notFound)
     }
     
+    func testNotConfiguredError() {
+        let error = """
+        {
+            "ok":false,
+            "error":"Could not parse request body.",
+            "error_code":40000,
+            "details":{
+                "error":"No configured device_types could be resolved from request."
+            }
+        }
+        """.data(using: .utf8)!
+        
+        let urbanError = try? JSONDecoder().decode(UrbanError.self, from: error)
+        print(urbanError)
+    }
+    
     static var allTests: [(String, (ErrorTests) -> () throws -> Void)] = [
         ("test400Response", test400Response),
         ("test400ResponseWithoutLocation", test400ResponseWithoutLocation),
         ("test404Response", test404Response),
         ("testAbortError", testAbortError),
+        ("testNotConfiguredError", testNotConfiguredError),
     ]
 }
