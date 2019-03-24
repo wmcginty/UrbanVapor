@@ -98,7 +98,7 @@ class ErrorTests: XCTestCase {
         """.data(using: .utf8)!
         
         let urbanError = try? JSONDecoder().decode(UrbanError.self, from: error)
-        print(urbanError)
+        XCTAssertNotNil(urbanError)
     }
     
     static var allTests: [(String, (ErrorTests) -> () throws -> Void)] = [
