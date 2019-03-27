@@ -13,7 +13,7 @@ class AudienceTests: XCTestCase {
     
     func testSegmentAudience() throws {
         let json = """
-        {"audience":{"segment":"some_segment"}}
+        {"segment":"some_segment"}
         """.data(using: .utf8)!
         
         let audience = Audience(segmentID: "some_segment")
@@ -22,7 +22,7 @@ class AudienceTests: XCTestCase {
     
     func testTagAudience() throws {
         let json = """
-        {"audience":{"tag":"fans"}}
+        {"tag":"fans"}
         """.data(using: .utf8)!
         
         let audience = Audience(tag: "fans")
@@ -33,7 +33,7 @@ class AudienceTests: XCTestCase {
     
     func testGroupAudience() throws {
         let json = """
-        {"audience":{"group":"platinum","tag":"fans"}}
+        {"group":"platinum","tag":"fans"}
         """.data(using: .utf8)!
         
         let audience = Audience(tag: "fans", group: "platinum")
@@ -42,7 +42,7 @@ class AudienceTests: XCTestCase {
     
     func testSingleChannelAudience() {
         let json = """
-        {"audience":{"ios_channel":"abcdefghijklmnopqrstuvwxyz"}}
+        {"ios_channel":"abcdefghijklmnopqrstuvwxyz"}
         """.data(using: .utf8)!
         
         let audience = Audience(iosChannels: "abcdefghijklmnopqrstuvwxyz")
@@ -51,7 +51,7 @@ class AudienceTests: XCTestCase {
     
     func testOpenChannelAudience() {
         let json = """
-        {"audience":{"open_channel":"abcdefghijklmnopqrstuvwxyz"}}
+        {"open_channel":"abcdefghijklmnopqrstuvwxyz"}
         """.data(using: .utf8)!
         
         let audience = Audience(openChannels: "abcdefghijklmnopqrstuvwxyz")
@@ -60,7 +60,7 @@ class AudienceTests: XCTestCase {
     
     func testWebChannelAudience() {
         let json = """
-        {"audience":{"web_channel":"abcdefghijklmnopqrstuvwxyz"}}
+        {"web_channel":"abcdefghijklmnopqrstuvwxyz"}
         """.data(using: .utf8)!
         
         let audience = Audience(webChannels: "abcdefghijklmnopqrstuvwxyz")
@@ -69,7 +69,7 @@ class AudienceTests: XCTestCase {
 
     func testMultiChannelAudience() {
         let json = """
-        {"audience":{"amazon_channel":["user1","user2"]}}
+        {"amazon_channel":["user1","user2"]}
         """.data(using: .utf8)!
         
         let audience = Audience(amazonChannels: "user1", "user2")
@@ -78,7 +78,7 @@ class AudienceTests: XCTestCase {
     
     func testAndroidChannelAudience() {
         let json = """
-        {"audience":{"android_channel":["user1","user2"]}}
+        {"android_channel":["user1","user2"]}
         """.data(using: .utf8)!
         
         let audience = Audience(androidChannels: "user1", "user2")
@@ -87,7 +87,7 @@ class AudienceTests: XCTestCase {
 
     func testDeviceTokenAudience() {
         let json = """
-        {"audience":{"device_token":"abcdefghijklmnopqrstuvwxyz"}}
+        {"device_token":"abcdefghijklmnopqrstuvwxyz"}
         """.data(using: .utf8)!
         
         let audience = Audience(deviceToken: "abcdefghijklmnopqrstuvwxyz")
@@ -96,7 +96,7 @@ class AudienceTests: XCTestCase {
     
     func testWNSDeviceTokenAudience() {
         let json = """
-        {"audience":{"wns":"abcdefghijklmnopqrstuvwxyz"}}
+        {"wns":"abcdefghijklmnopqrstuvwxyz"}
         """.data(using: .utf8)!
         
         let audience = Audience(wnsDevice: "abcdefghijklmnopqrstuvwxyz")
@@ -105,7 +105,7 @@ class AudienceTests: XCTestCase {
     
     func testNamedUserAudience() {
         let json = """
-        {"audience":{"named_user":"userid12345"}}
+        {"named_user":"userid12345"}
         """.data(using: .utf8)!
         
         let audience = Audience(namedUser: "userid12345")
@@ -114,7 +114,7 @@ class AudienceTests: XCTestCase {
     
     func testStaticListAudience() {
         let json = """
-        {"audience":{"static_list":"userid12345"}}
+        {"static_list":"userid12345"}
         """.data(using: .utf8)!
         
         let audience = Audience(staticList: "userid12345")

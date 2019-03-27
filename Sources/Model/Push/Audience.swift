@@ -23,6 +23,10 @@ public struct Audience: Encodable {
             return AnyEncodable(first)
         }
     }
+    
+    public func encode(to encoder: Encoder) throws {
+        try audience.encode(to: encoder)
+    }
 }
 
 // MARK: Predefined
