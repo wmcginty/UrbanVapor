@@ -36,7 +36,7 @@ public struct APNS: Codable {
     }
     
     // MARK: Properties
-    public var alert: Alert
+    public var alert: Alert?
     
     public var threadIdentifier: String?
     public var category: String?
@@ -49,7 +49,7 @@ public struct APNS: Codable {
     public var mutableContent: Int?
     
     // MARK: Initializers
-    public init(alert: APNS.Alert, threadID: String? = nil, category: String? = nil, priority: Priority? = nil, badge: Badge? = nil, extra: [String: String]? = nil,
+    public init(alert: APNS.Alert?, threadID: String? = nil, category: String? = nil, priority: Priority? = nil, badge: Badge? = nil, extra: [String: String]? = nil,
                 contentAvailable: Bool? = nil, mutableContent: Bool? = nil) {
         self.alert = alert
         self.threadIdentifier = threadID
@@ -72,9 +72,9 @@ public struct APNS: Codable {
 
 // MARK: Convenience
 extension APNS {
-    public init(alert: String, threadID: String? = nil, category: String? = nil, priority: Priority? = nil, badge: Badge? = nil, extra: [String: String]? = nil,
+    public init(alert: String? = nil, threadID: String? = nil, category: String? = nil, priority: Priority? = nil, badge: Badge? = nil, extra: [String: String]? = nil,
                 contentAvailable: Bool? = nil, mutableContent: Bool? = nil) {
-        self.init(alert: APNS.Alert(title: alert), threadID: threadID, category: category, priority: priority, badge: badge, extra: extra,
+        self.init(alert: alert.map { APNS.Alert(title: $0) },  threadID: threadID, category: category, priority: priority, badge: badge, extra: extra,
                   contentAvailable: contentAvailable, mutableContent: mutableContent)
     }
 }
