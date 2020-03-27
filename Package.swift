@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "UrbanVapor",
+    name: "urbanvapor",
     platforms: [.macOS(.v10_15)],
     products: [
         .library(name: "UrbanVapor", targets: ["UrbanVapor"])
