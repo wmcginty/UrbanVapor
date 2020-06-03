@@ -3,7 +3,7 @@ os:
     - osx
 language: generic
 sudo: required
-dist: trusty
+dist: bionic
 
 osx_image: xcode11.5
 before_install:
@@ -15,13 +15,12 @@ before_install:
         else
             eval "$(curl -sL https://swiftenv.fuller.li/install.sh)";
             eval "$(curl -sL https://apt.vapor.sh)";
-            sudo apt-get install vapor;
+            sudo apt-get install vapor -y;
             sudo chmod -R a+rx /usr/;
         fi
 
 script:
     - swift --version
-    - swift build
     - swift build -c release
     - swift test
 
