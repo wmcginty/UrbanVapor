@@ -116,7 +116,7 @@ private extension UrbanVapor {
     private func send<T: Encodable>(body: T, to endpoint: Endpoint, on request: Request) throws -> EventLoopFuture<ClientResponse> {
         return request.client.post(endpoint.uri, headers: authorizationHeaders) { req in
             let encoder = JSONEncoder.custom(dates: .airship)
-            try req.body?.setJSONEncodable(body, encoder: encoder, at: 0)
+            try req.content.encode(body, using: encoder)
         }
     }
 }
