@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 // MARK: UrbanVapor Access
-public extension Request {
+public extension Application {
     
     func configureUrbanVapor(withKey key: String, secret: String) {
         storage[UrbanVaporAPIKey.self] = key
@@ -20,7 +20,7 @@ public extension Request {
     
     var urbanVapor: UrbanVapor {
         guard let key = storage[UrbanVaporAPIKey.self], let secret = storage[UrbanVaporAPISecret.self] else {
-            fatalError()
+            fatalError("Could not properly configure UrbanVapor")
         }
         
         return UrbanVapor(key: key, secret: secret)
