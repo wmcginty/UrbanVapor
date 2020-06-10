@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct NamedUserAssocation: Encodable {
+public struct NamedUserAssocation: Codable {
     
     let channelID: String
     let deviceType: DeviceType?

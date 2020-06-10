@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Push: Encodable {
+public struct Push: Codable {
     
     public let audience: Audience
     public let notification: Notification

@@ -17,7 +17,7 @@ public struct Badge: Codable {
     private init(value: String) { stringValue = value }
     init(value: Int) { stringValue = "\(value)" }
     
-    // MARK: Encodable
+    // MARK: Codable
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(stringValue)

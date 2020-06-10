@@ -14,6 +14,17 @@ public enum DeviceType: Int, Codable, CaseIterable {
     case web = 8
     case wns = 16
     
+    init?(stringValue: String) {
+        switch stringValue {
+        case DeviceType.android.stringValue: self = .android
+        case DeviceType.amazon.stringValue: self = .amazon
+        case DeviceType.ios.stringValue: self = .ios
+        case DeviceType.web.stringValue: self = .web
+        case DeviceType.wns.stringValue: self = .wns
+        default: return nil
+        }
+    }
+    
     var stringValue: String {
         switch self {
         case .android: return "android"
@@ -31,11 +42,11 @@ public struct DeviceTypes: Collection, Equatable {
     private var storage: Set<DeviceType> = []
     
     // MARK: Initializer
-    public init(deviceTypes: DeviceType...) {
+    public init(_ deviceTypes: DeviceType...) {
         storage = Set(deviceTypes)
     }
     
-    public init(deviceTypes: [DeviceType]) {
+    public init(_ deviceTypes: [DeviceType]) {
         storage = Set(deviceTypes)
     }
     
@@ -59,17 +70,34 @@ public struct DeviceTypes: Collection, Equatable {
 
 // MARK: Predefined
 public extension DeviceTypes {
-    static let all: DeviceTypes = DeviceTypes(deviceTypes: DeviceType.allCases)
+    static let all: DeviceTypes = DeviceTypes(DeviceType.allCases)
+    static let none: DeviceTypes = DeviceTypes([])
 }
 
-// MARK: Encodable
-extension DeviceTypes: Encodable {
+// MARK: Codable
+extension DeviceTypes: Codable {
+    
+    private static let stringAll = "all"
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let singleType = try? container.decode(String.self) {
+            if singleType == DeviceTypes.stringAll {
+                self = .all; return
+            }
+        
+            self = DeviceType(stringValue: singleType).map { DeviceTypes([$0]) } ?? .none
+        }
+        
+        let typesList = try container.decode([String].self)
+        self = DeviceTypes(typesList.compactMap { DeviceType(stringValue: $0) })
+    }
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         
         guard self != DeviceTypes.all else {
-            return try container.encode("all")
+            return try container.encode(DeviceTypes.stringAll)
         }
         
         try container.encode(Array(storage.map { $0.stringValue }))

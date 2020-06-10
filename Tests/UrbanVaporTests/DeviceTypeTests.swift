@@ -11,13 +11,13 @@ import XCTest
 
 class DeviceTypeTests: XCTestCase {
     
-    private struct DeviceTypeContainer: Encodable {
+    private struct DeviceTypeContainer: Codable{
         let types: DeviceTypes
     }
     
     func testSingleDeviceType() throws {
         let json = "[\"ios\"]".data(using: .utf8)!
-        let type = DeviceTypes(deviceTypes: .ios)
+        let type = DeviceTypes(.ios)
         assertJSONEncoded(from: type, matches: json)
     }
     
@@ -25,19 +25,33 @@ class DeviceTypeTests: XCTestCase {
         let json = """
         {"types":"all"}
         """.data(using: .utf8)!
+      
         let type = DeviceTypes.all
         let container = DeviceTypeContainer(types: type)
         assertJSONEncoded(from: container, matches: json)
     }
     
+    func testDecodingAllDeviceType() throws {
+        let json = """
+        {"types":"all"}
+        """.data(using: .utf8)!
+        let decodedTypes = try? JSONDecoder().decode(DeviceTypeContainer.self, from: json).types
+        
+        XCTAssertEqual(decodedTypes, .all)
+    }
+    
     func testDeviceTypeList() throws {
         let json = "[\"ios\",\"android\",\"amazon\"]".data(using: .utf8)!
-        let types = DeviceTypes(deviceTypes: .ios, .android, .amazon)
+        let decodedTypes = try? JSONDecoder().decode(DeviceTypes.self, from: json)
+        
+        let types = DeviceTypes(.ios, .android, .amazon)
         assertJSONEncoded(from: types, matches: json)
+        
+        XCTAssertEqual(decodedTypes, types)
     }
     
     func testDeviceTypeInsert() throws {
-        var types = DeviceTypes(deviceTypes: .ios)
+        var types = DeviceTypes(.ios)
         XCTAssertTrue(types.contains(.ios))
         XCTAssertEqual(types.count, 1)
         
@@ -61,6 +75,7 @@ class DeviceTypeTests: XCTestCase {
     static var allTests: [(String, (DeviceTypeTests) -> () throws -> Void)] = [
         ("testSingleDeviceType", testSingleDeviceType),
         ("testAllDeviceType", testAllDeviceType),
+        ("testDecodingAllDeviceType", testDecodingAllDeviceType),
         ("testDeviceTypeList", testDeviceTypeList),
     ]
 }

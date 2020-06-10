@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Audience: Encodable {
+public struct Audience: Codable {
     
     // MARK: Properties
     private var audience: [String: AnyEncodable] = [:]
@@ -24,8 +24,31 @@ public struct Audience: Encodable {
         }
     }
     
+    // MARK: Codable
+    private struct CodingKeys: CodingKey {
+        let stringValue: String
+        init(stringValue: String) { self.stringValue = stringValue }
+        
+        var intValue: Int?
+        init?(intValue: Int) { return nil }
+    }
+    
     public func encode(to encoder: Encoder) throws {
         try audience.encode(to: encoder)
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let dictionary = Dictionary<String, AnyEncodable>(uniqueKeysWithValues: try container.allKeys.map { key in
+            if let singleValue = try? container.decode(String.self, forKey: key) {
+                return (key.stringValue, AnyEncodable(singleValue))
+            }
+            
+            let arrayOfValues = try container.decode([String].self, forKey: key)
+            return (key.stringValue, AnyEncodable(arrayOfValues))
+        })
+        
+        self.init(dictionary)
     }
 }
 

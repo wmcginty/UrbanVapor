@@ -61,7 +61,7 @@ public struct APNS: Codable {
         self.mutableContent = (mutableContent ?? false) ? 1 : 0
     }
     
-    // MARK: Encodable
+    // MARK: Codable
     private enum CodingKeys: String, CodingKey {
         case alert, category, badge, extra, priority
         case threadIdentifier = "thread_id"
