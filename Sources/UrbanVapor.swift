@@ -104,23 +104,23 @@ public extension UrbanVapor {
         }
     }
     
-    func send(_ push: Push, using client: Client, validateOnly: Bool = false) throws -> EventLoopFuture<HTTPStatus> {
-        return try send(body: push, to: validateOnly ? .validate : .push, using: client).mapToHTTPStatus()
+    func send(_ push: Push, using client: Client, validateOnly: Bool = false) -> EventLoopFuture<HTTPStatus> {
+        return send(body: push, to: validateOnly ? .validate : .push, using: client).mapToHTTPStatus()
     }
     
-    func associate(_ namedUser: NamedUserAssocation, using client: Client) throws -> EventLoopFuture<HTTPStatus> {
-        return try send(body: namedUser, to: .namedUser(action: .associate), using: client).mapToHTTPStatus()
+    func associate(_ namedUser: NamedUserAssocation, using client: Client) -> EventLoopFuture<HTTPStatus> {
+        return send(body: namedUser, to: .namedUser(action: .associate), using: client).mapToHTTPStatus()
     }
     
-    func disassociate(_ namedUser: NamedUserAssocation, using client: Client) throws -> EventLoopFuture<HTTPStatus> {
-        return try send(body: namedUser, to: .namedUser(action: .disassociate), using: client).mapToHTTPStatus()
+    func disassociate(_ namedUser: NamedUserAssocation, using client: Client) -> EventLoopFuture<HTTPStatus> {
+        return send(body: namedUser, to: .namedUser(action: .disassociate), using: client).mapToHTTPStatus()
     }
 }
 
 // MARK: Helper
 private extension UrbanVapor {
     
-    private func send<T: Encodable>(body: T, to endpoint: Endpoint, using client: Client) throws -> EventLoopFuture<ClientResponse> {
+    private func send<T: Encodable>(body: T, to endpoint: Endpoint, using client: Client) -> EventLoopFuture<ClientResponse> {
         return client.post(endpoint.uri, headers: authorizationHeaders) { req in
             let encoder = JSONEncoder.custom(dates: .airship)
             try req.content.encode(body, using: encoder)
