@@ -20,7 +20,7 @@ public struct Badge: Codable {
     // MARK: Codable
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(value: container.decode(String.self))
+        self.init(value: try container.decode(String.self))
     }
     
     public func encode(to encoder: Encoder) throws {
