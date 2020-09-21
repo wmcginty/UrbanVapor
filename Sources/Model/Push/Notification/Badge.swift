@@ -18,6 +18,11 @@ public struct Badge: Codable {
     init(value: Int) { stringValue = "\(value)" }
     
     // MARK: Codable
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(value: container.decode(String.self))
+    }
+    
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(stringValue)
