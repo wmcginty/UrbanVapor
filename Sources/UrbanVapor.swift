@@ -49,6 +49,7 @@ private extension HTTPMediaType {
 }
 
 private struct UAJSONDecoder: ContentDecoder {
+    
     func decode<D>(_ decodable: D.Type, from body: ByteBuffer, headers: HTTPHeaders) throws -> D where D : Decodable {
         return try JSONDecoder().decode(decodable, from: body)
     }
@@ -75,8 +76,24 @@ public struct UrbanVapor {
 // MARK: Network Requests
 public extension UrbanVapor {
     
+    func send(_ push: Push, using client: Client, validateOnly: Bool = false) async throws -> HTTPStatus {
+        return try await send(body: push, to: validateOnly ? .validate : .push, using: client).httpStatus()
+    }
+    
+    func associate(_ namedUser: NamedUserAssocation, using client: Client) async throws -> HTTPStatus {
+        return try await send(body: namedUser, to: .namedUser(action: .associate), using: client).httpStatus()
+    }
+    
+    func disassociate(_ namedUser: NamedUserAssocation, using client: Client) async throws -> HTTPStatus {
+        return try await send(body: namedUser, to: .namedUser(action: .disassociate), using: client).httpStatus()
+    }
+}
+
+// MARK: Helper
+private extension UrbanVapor {
+    
     //MARK: Endpoint
-    private enum Endpoint {
+    enum Endpoint {
         private static let baseURL = URL(string: "https://go.urbanairship.com/api/")!
         
         case push
@@ -104,24 +121,8 @@ public extension UrbanVapor {
         }
     }
     
-    func send(_ push: Push, using client: Client, validateOnly: Bool = false) -> EventLoopFuture<HTTPStatus> {
-        return send(body: push, to: validateOnly ? .validate : .push, using: client).mapToHTTPStatus()
-    }
-    
-    func associate(_ namedUser: NamedUserAssocation, using client: Client) -> EventLoopFuture<HTTPStatus> {
-        return send(body: namedUser, to: .namedUser(action: .associate), using: client).mapToHTTPStatus()
-    }
-    
-    func disassociate(_ namedUser: NamedUserAssocation, using client: Client) -> EventLoopFuture<HTTPStatus> {
-        return send(body: namedUser, to: .namedUser(action: .disassociate), using: client).mapToHTTPStatus()
-    }
-}
-
-// MARK: Helper
-private extension UrbanVapor {
-    
-    private func send<T: Encodable>(body: T, to endpoint: Endpoint, using client: Client) -> EventLoopFuture<ClientResponse> {
-        return client.post(endpoint.uri, headers: authorizationHeaders) { req in
+    func send<T: Encodable>(body: T, to endpoint: Endpoint, using client: Client) async throws -> ClientResponse {
+        return try await client.post(endpoint.uri, headers: authorizationHeaders) { req in
             let encoder = JSONEncoder.custom(dates: .airship)
             try req.content.encode(body, using: encoder)
         }
@@ -129,20 +130,14 @@ private extension UrbanVapor {
 }
 
 // MARK: Helper
-private extension EventLoopFuture where Value == ClientResponse {
+private extension ClientResponse {
     
-    func mapToHTTPStatus() -> EventLoopFuture<HTTPStatus> {
-        return flatMap { response in
-            guard response.status.isSuccess else {
-                do {
-                    let urbanError = try response.content.decode(UrbanError.self)
-                    return self.eventLoop.makeFailedFuture(UrbanAbortError(status: response.status, urbanError: urbanError))
-                } catch {
-                    return self.eventLoop.makeFailedFuture(error)
-                }
-            }
-            
-            return self.eventLoop.makeSucceededFuture(response.status)
+    func httpStatus() throws -> HTTPStatus {
+        guard status.isSuccess else {
+            let urbanError = try content.decode(UrbanError.self)
+            throw UrbanAbortError(status: status, urbanError: urbanError)
         }
+        
+        return status
     }
 }
