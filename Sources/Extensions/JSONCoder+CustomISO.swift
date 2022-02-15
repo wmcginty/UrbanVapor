@@ -1,6 +1,5 @@
 //
 //  JSONEncoder+CustomISO.swift
-//  Async
 //
 //  Created by William McGinty on 5/13/18.
 //

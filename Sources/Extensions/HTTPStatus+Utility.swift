@@ -1,6 +1,5 @@
 //
 //  HTTPStatus+Utility.swift
-//  Async
 //
 //  Created by William McGinty on 9/21/18.
 //

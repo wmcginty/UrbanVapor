@@ -1,6 +1,5 @@
 //
 //  Badge.swift
-//  Async
 //
 //  Created by William McGinty on 9/19/18.
 //

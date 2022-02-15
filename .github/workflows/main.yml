@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  Build:
+    runs-on: [ macos-latest, ubuntu-latest ]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build and Test
+      run: swift test
+
+  Lint:
+    runs-on: [ macos-latest, ubuntu-latest ]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Lint
+      run: swift package describe

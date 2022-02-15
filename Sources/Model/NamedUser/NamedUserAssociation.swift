@@ -1,6 +1,5 @@
 //
 //  NamedUserAssociation.swift
-//  Async
 //
 //  Created by William McGinty on 5/7/18.
 //
