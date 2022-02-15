@@ -19,7 +19,9 @@ jobs:
           - name: "Linux"
             os: "ubuntu-latest"
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
+      
     - name: Build and Test
       run: swift test
 
