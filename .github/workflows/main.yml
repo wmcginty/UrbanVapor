@@ -7,14 +7,24 @@ on:
 
 jobs:
   Build:
-    runs-on: [ macos-latest, ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        name: ["macOS", "Linux"]
+        include:
+          - name: "macOS"
+            os: "macos-latest"
+          
+          - name: "Linux"
+            os: "ubuntu-latest"
     steps:
     - uses: actions/checkout@v2
     - name: Build and Test
       run: swift test
 
   Lint:
-    runs-on: [ macos-latest, ubuntu-latest ]
+    runs-on: macos-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
