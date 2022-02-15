@@ -1,5 +1,5 @@
 # UrbanVapor
-============
+
 ![CI Status](https://github.com/wmcginty/UrbanVapor/actions/workflows/main.yml/badge.svg)
 ![Swift](http://img.shields.io/badge/swift-5.5-brightgreen.svg)
 ![Vapor](http://img.shields.io/badge/vapor-4.0-brightgreen.svg)
