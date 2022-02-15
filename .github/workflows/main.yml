@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  Build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        name: ["Linux"]
+        include:          
+          - name: "Linux"
+            os: "ubuntu-latest"
+            
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Build and Test
+      run: swift test
+
+  Lint:
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Lint
+      run: swift package describe

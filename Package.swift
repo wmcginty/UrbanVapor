@@ -1,4 +1,5 @@
 // swift-tools-version:5.5
+
 import PackageDescription
 
 let package = Package(
@@ -11,9 +12,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/vapor.git", from: "4.54.0"),
     ],
     targets: [
-        .target(name: "UrbanVapor", dependencies: [
-            .product(name: "Vapor", package: "vapor")
-        ], path: "Sources/"),
-        .testTarget(name: "UrbanVaporTests", dependencies: ["UrbanVapor"])
+        .target(name: "UrbanVapor", dependencies: [.product(name: "Vapor", package: "vapor")], path: "Sources"),
+        .testTarget(name: "UrbanVaporTests", dependencies: ["UrbanVapor"], path: "Tests")
     ]
 )

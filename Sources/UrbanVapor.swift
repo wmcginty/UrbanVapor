@@ -1,6 +1,5 @@
 //
 //  UrbanVapor.swift
-//  App
 //
 //  Created by William McGinty on 5/5/18.
 //

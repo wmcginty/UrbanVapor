@@ -1,6 +1,5 @@
 //
 //  DeviceTypes.swift
-//  App
 //
 //  Created by William McGinty on 5/7/18.
 //
